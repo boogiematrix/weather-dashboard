@@ -24,21 +24,61 @@ const template = `  <h2>Your City</h2>
                     <p>Humidity:</p>
                     <p>Wind Speed:</p>
                     <p>UV Index</p>`
-const apiKey = ''
+const apiKey = 'f7539453617679dd406d1369cc371b9e'
+let cityGeocodeJson
 const searchHistory = document.getElementById('searchHistory')
-
 //geocode call
-//fetch(api.openweathermap.org/geo/1.0/direct?q={cityInput}&limit=1&appid=${apiKey})
-
+const geocode = async () => {
+    const geocodeUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityInput.value}&limit=1&appid=${apiKey}`;
+    
+    try {
+        let response = await fetch(geocodeUrl);
+        if(response.ok) {
+            cityGeocodeJson = await response.json();
+            console.log(cityGeocodeJson)
+            return cityGeocodeJson
+        }
+    }
+    catch (error) { console.log(error) }
+}
 //weather call
-//fetch(api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude=minutely,hourly,daily,alerts&units=imperial&appid=${apiKey})
-
+const currentWeather = async () => {
+    const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${cityGeocodeJson[0].lat}&lon=${cityGeocodeJson[0].lon}&exclude=minutely,hourly,daily,alerts&units=imperial&appid=${apiKey}`;
+        try {
+        let response = await fetch(currentWeatherUrl);
+        if(response.ok) {
+            let currentWeatherJson = await response.json();
+            console.log(currentWeatherJson)
+            return currentWeatherJson
+        }
+    }
+    catch (error) { console.log(error) }
+}
 //5 day forecast
-//fetch(api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&units=imperial&cnt=5&appid=${apiKey})
+const fiveDayForecast = async () => {
+    const fiveDayUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${cityGeocodeJson[0].lat}&lon=${cityGeocodeJson[0].lon}&units=imperial&cnt=5&appid=${apiKey}`;
+      try {
+        let response = await fetch(fiveDayUrl);
+        if(response.ok) {
+            let fiveDayJson = await response.json();
+            console.log(fiveDayJson)
+            return fiveDayJson
+        }
+    }
+    catch (error) { console.log(error) }
+}
 
 cityInput.addEventListener('keyup', function (e) {
-    e.preventDefault()
+    e.preventDefault();
     if (e.keycode === 13 || e.key === 'Enter') {
+        geocode()
+            .then(function () {
+               return Promise.all([currentWeather(), fiveDayForecast()])
+            })
+            .then(weather => {
+                console.log(weather)
+                return weather
+            })
         let searchItem = document.createElement('li');
         searchItem.classList.add('list-group-item')
         searchItem.textContent = cityInput.value;
