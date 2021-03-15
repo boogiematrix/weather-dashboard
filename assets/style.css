@@ -4,6 +4,10 @@ body {
   line-height: 1;
 }
 
+p {
+  padding: 1px;
+}
+
 .jumbotron {
   text-align: center;
   background-color: black;
@@ -14,4 +18,21 @@ body {
 
 article {
   min-height: 200px;
+}
+
+.card {
+  color: white;
+  background-color: rgb(84, 126, 218);
+}
+
+.severe {
+  background-color: red;
+}
+
+.moderate {
+  background-color: yellow;
+}
+
+.safe {
+  background-color: lightgreen;
 }
