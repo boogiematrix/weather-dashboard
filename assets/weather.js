@@ -25,6 +25,7 @@ const template = `  <h2>Your City</h2>
                     <p>Wind Speed:</p>
                     <p>UV Index</p>`
 const apiKey = ''
+const searchHistory = document.getElementById('searchHistory')
 
 //geocode call
 //fetch(api.openweathermap.org/geo/1.0/direct?q={cityInput}&limit=1&appid=${apiKey})
@@ -34,3 +35,14 @@ const apiKey = ''
 
 //5 day forecast
 //fetch(api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&units=imperial&cnt=5&appid=${apiKey})
+
+cityInput.addEventListener('keyup', function (e) {
+    e.preventDefault()
+    if (e.keycode === 13 || e.key === 'Enter') {
+        let searchItem = document.createElement('li');
+        searchItem.classList.add('list-group-item')
+        searchItem.textContent = cityInput.value;
+        searchHistory.appendChild(searchItem)
+        cityInput.value = ''
+    }
+})
