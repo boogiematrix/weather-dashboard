@@ -23,12 +23,13 @@ const currentWeatherBox = document.getElementById('currentWeatherBox');
 const fiveDayWeatherBox = document.getElementById('fiveDayWeatherBox');
 const apiKey = 'f7539453617679dd406d1369cc371b9e';
 let cityGeocodeJson;
+let cityName
 let today = moment().format('MM/DD/YYYY')
 //let weather;
 const searchHistory = document.getElementById('searchHistory');
 //geocode call
 const geocode = async () => {
-    const geocodeUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityInput.value}&limit=1&appid=${apiKey}`;
+    const geocodeUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${apiKey}`;
 
     try {
         let response = await fetch(geocodeUrl);
@@ -68,18 +69,17 @@ const fiveDayForecast = async () => {
     catch (error) { console.log(error) }
 }
 
-cityInput.addEventListener('keyup', function (e) {
-    e.preventDefault();
-    if (e.keycode === 13 || e.key === 'Enter') {
-        geocode()
-            .then(function () {
-                return Promise.all([currentWeather(), fiveDayForecast()])
-            })
-            .then(weather => {
-                console.log(weather)
-                return weather
-            })
-            .then(function (weather) {
+const renderWeather = () => {
+    geocode()
+        .then(function () {
+            return Promise.all([currentWeather(), fiveDayForecast()])
+        })
+        .then(weather => {
+            console.log(weather)
+            return weather
+        })
+        .then(
+            function (weather) {
                 const currentWeatherTemplate = `  <h2>${weather[1].city.name} ${today} <img src='http://openweathermap.org/img/wn/${weather[0].current.weather[0].icon}@2x.png'></h2>
                             <p>Temperature: ${weather[0].current.temp}°F </p>
                             <p>Humidity: ${weather[0].current.humidity}% </p>
@@ -132,6 +132,14 @@ cityInput.addEventListener('keyup', function (e) {
                 }
 
             })
+}
+
+
+cityInput.addEventListener('keyup', function (e) {
+    e.preventDefault();
+    if (e.keycode === 13 || e.key === 'Enter') {
+        cityName = cityInput.value
+        renderWeather();
 
         let searchItem = document.createElement('li');
         searchItem.classList.add('list-group-item')
@@ -139,4 +147,9 @@ cityInput.addEventListener('keyup', function (e) {
         searchHistory.appendChild(searchItem)
         cityInput.value = ''
     }
+})
+
+searchHistory.addEventListener('click', function (e) {
+    cityName = e.target.textContent;
+    renderWeather();
 })
