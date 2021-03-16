@@ -21,7 +21,7 @@ TODO each city in search history is a link to city data
 const cityInput = document.getElementById('city');
 const currentWeatherBox = document.getElementById('currentWeatherBox');
 const fiveDayWeatherBox = document.getElementById('fiveDayWeatherBox');
-const apiKey = 'f7539453617679dd406d1369cc371b9e';
+const apiKey = '';
 let cityGeocodeJson;
 let today = moment().format('MM/DD/YYYY')
 //let weather;
@@ -29,10 +29,10 @@ const searchHistory = document.getElementById('searchHistory');
 //geocode call
 const geocode = async () => {
     const geocodeUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityInput.value}&limit=1&appid=${apiKey}`;
-    
+
     try {
         let response = await fetch(geocodeUrl);
-        if(response.ok) {
+        if (response.ok) {
             cityGeocodeJson = await response.json();
             console.log(cityGeocodeJson)
             return cityGeocodeJson
@@ -45,7 +45,7 @@ const currentWeather = async () => {
     const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${cityGeocodeJson[0].lat}&lon=${cityGeocodeJson[0].lon}&exclude=minutely,hourly,daily,alerts&units=imperial&appid=${apiKey}`;
     try {
         let response = await fetch(currentWeatherUrl);
-        if(response.ok) {
+        if (response.ok) {
             let currentWeatherJson = await response.json();
             console.log(currentWeatherJson)
             return currentWeatherJson
@@ -56,9 +56,10 @@ const currentWeather = async () => {
 //5 day forecast
 const fiveDayForecast = async () => {
     const fiveDayUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${cityGeocodeJson[0].lat}&lon=${cityGeocodeJson[0].lon}&units=imperial&appid=${apiKey}`;
+
     try {
         let response = await fetch(fiveDayUrl);
-        if(response.ok) {
+        if (response.ok) {
             let fiveDayJson = await response.json();
             console.log(fiveDayJson)
             return fiveDayJson
@@ -80,44 +81,44 @@ cityInput.addEventListener('keyup', function (e) {
             })
             .then(function (weather) {
                 const currentWeatherTemplate = `  <h2>${weather[1].city.name} ${today} <img src='http://openweathermap.org/img/wn/${weather[0].current.weather[0].icon}@2x.png'></h2>
-                            <p>Temperature: ${weather[0].current.temp} </p>
-                            <p>Humidity: ${weather[0].current.humidity} </p>
-                            <p>Wind Speed: ${weather[0].current.wind_speed} </p>
+                            <p>Temperature: ${weather[0].current.temp}°F </p>
+                            <p>Humidity: ${weather[0].current.humidity}% </p>
+                            <p>Wind Speed: ${weather[0].current.wind_speed}MPH </p>
                             <p>UV Index <span id='uvi'>${weather[0].current.uvi}</span> </p>`
-                
+
                 const fiveDayWeatherTemplate = `
                     <h2>5-Day Forcast</h2>
                     <div class='card col-2'>
-                        <p>${moment().add(1, 'd')/*.format('MM/DD/YYYY')*/}</p>
-                        <p><img src='http://openweathermap.org/img/wn/${weather[1].list[4].weather[0].icon}@2x.png'></p>
-                        <p>${weather[1].list[4].main.temp} °F</p>
-                        <p>${weather[1].list[4].main.humidity} %humidity</p>
+                        <p>${moment().add(1, 'd').format('MM/DD/YYYY')}</p>
+                        <p><img src='http://openweathermap.org/img/wn/${weather[1].list[0].weather[0].icon}@2x.png'></p>
+                        <p>${weather[1].list[0].main.temp} °F</p>
+                        <p>${weather[1].list[0].main.humidity} % Humidity</p>
                     </div>
                     <div class='card col-2'>
                         <p>${moment().add(2, 'd').format('MM/DD/YYYY')}</p>
-                        <p><img src='http://openweathermap.org/img/wn/${weather[1].list[12].weather[0].icon}@2x.png'></p>
-                        <p>${weather[1].list[12].main.temp} °F</p>
-                        <p>${weather[1].list[12].main.humidity} %humidity</p>
+                        <p><img src='http://openweathermap.org/img/wn/${weather[1].list[7].weather[0].icon}@2x.png'></p>
+                        <p>${weather[1].list[7].main.temp} °F</p>
+                        <p>${weather[1].list[7].main.humidity} % Humidity</p>
                     </div>
                     <div class='card col-2'>
                         <p>${moment().add(3, 'd').format('MM/DD/YYYY')}</p>
-                        <p><img src='http://openweathermap.org/img/wn/${weather[1].list[20].weather[0].icon}@2x.png'></p>
-                        <p>${weather[1].list[20].main.temp} °F</p>
-                        <p>${weather[1].list[20].main.humidity} %humidity</p>
+                        <p><img src='http://openweathermap.org/img/wn/${weather[1].list[15].weather[0].icon}@2x.png'></p>
+                        <p>${weather[1].list[15].main.temp} °F</p>
+                        <p>${weather[1].list[15].main.humidity} % Humidity</p>
                     </div>
                     <div class='card col-2'>
                         <p>${moment().add(4, 'd').format('MM/DD/YYYY')}</p>
-                        <p><img src='http://openweathermap.org/img/wn/${weather[1].list[28].weather[0].icon}@2x.png'></p>
-                        <p>${weather[1].list[28].main.temp} °F</p>
-                        <p>${weather[1].list[28].main.humidity} %humidity</p>
+                        <p><img src='http://openweathermap.org/img/wn/${weather[1].list[23].weather[0].icon}@2x.png'></p>
+                        <p>${weather[1].list[23].main.temp} °F</p>
+                        <p>${weather[1].list[23].main.humidity} % Humidity</p>
                     </div>
                     <div class='card col-2'>
                         <p>${moment().add(5, 'd').format('MM/DD/YYYY')}</p>
-                        <p><img src='http://openweathermap.org/img/wn/${weather[1].list[36].weather[0].icon}@2x.png'></p>
-                        <p>${weather[1].list[36].main.temp} °F</p>
-                        <p>${weather[1].list[36].main.humidity} %humidity</p>
+                        <p><img src='http://openweathermap.org/img/wn/${weather[1].list[31].weather[0].icon}@2x.png'></p>
+                        <p>${weather[1].list[31].main.temp} °F</p>
+                        <p>${weather[1].list[31].main.humidity} % Humidity</p>
                     </div>`
-        
+
                 currentWeatherBox.innerHTML = currentWeatherTemplate;
                 fiveDayWeatherBox.innerHTML = fiveDayWeatherTemplate;
                 const uvIndex = document.getElementById('uvi');
@@ -128,9 +129,9 @@ cityInput.addEventListener('keyup', function (e) {
                 } else {
                     uvIndex.classList.add('safe')
                 }
-            
-        })
-        
+
+            })
+
         let searchItem = document.createElement('li');
         searchItem.classList.add('list-group-item')
         searchItem.textContent = cityInput.value;
