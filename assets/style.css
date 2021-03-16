@@ -5,7 +5,7 @@ body {
 }
 
 p {
-  padding: 1px;
+  padding: 2px;
 }
 
 .jumbotron {
@@ -17,7 +17,11 @@ p {
 }
 
 article {
-  min-height: 200px;
+  min-height: 150px;
+}
+
+img {
+  max-height: 50px;
 }
 
 .card {
@@ -25,14 +29,21 @@ article {
   background-color: rgb(84, 126, 218);
 }
 
+p:first-child {
+  font-size: 20px;
+}
+
 .severe {
   background-color: red;
+  padding: 10px;
 }
 
 .moderate {
   background-color: yellow;
+  padding: 10px;
 }
 
 .safe {
   background-color: lightgreen;
+  padding: 10px;
 }
