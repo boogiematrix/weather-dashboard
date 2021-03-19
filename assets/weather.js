@@ -1,33 +1,17 @@
-/*
-GIVEN a weather dashboard with form inputs
-TODO design the web layout
-WHEN I search for a city
-THEN I am presented with current and future conditions for that city and that city is added to the search history
-TODO display select weather data for a city. add city to list after search bar
-WHEN I view current weather conditions for that city
-THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index
-TODO identify path to necessary data. use moment to insert date. select an icon for certain conditions.
-WHEN I view the UV index
-THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe
-TODO designate a span to hold the uv data and change bg color
-WHEN I view future weather conditions for that city
-THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, and the humidity
-TODO set up 5 cards with the requisite structure
-WHEN I click on a city in the search history
-THEN I am again presented with current and future conditions for that city
-TODO each city in search history is a link to city data
-*/
+
 
 const cityInput = document.getElementById('city');
 const currentWeatherBox = document.getElementById('currentWeatherBox');
 const fiveDayWeatherBox = document.getElementById('fiveDayWeatherBox');
+const searchHistory = document.getElementById('searchHistory');
+
 const apiKey = 'f7539453617679dd406d1369cc371b9e';
+
+let today = moment().format('MM/DD/YYYY')
 let cityGeocodeJson;
 let cityName
-let today = moment().format('MM/DD/YYYY')
-//let weather;
-const searchHistory = document.getElementById('searchHistory');
-//geocode call
+
+//geocode request for longitude and latitude
 const geocode = async () => {
     const geocodeUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${apiKey}`;
 
@@ -41,7 +25,7 @@ const geocode = async () => {
     }
     catch (error) { console.log(error) }
 }
-//weather call
+//current weather info request
 const currentWeather = async () => {
     const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${cityGeocodeJson[0].lat}&lon=${cityGeocodeJson[0].lon}&exclude=minutely,hourly,daily,alerts&units=imperial&appid=${apiKey}`;
     try {
@@ -54,7 +38,7 @@ const currentWeather = async () => {
     }
     catch (error) { console.log(error) }
 }
-//5 day forecast
+//5 day forecast data request
 const fiveDayForecast = async () => {
     const fiveDayUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${cityGeocodeJson[0].lat}&lon=${cityGeocodeJson[0].lon}&units=imperial&appid=${apiKey}`;
 
@@ -68,15 +52,11 @@ const fiveDayForecast = async () => {
     }
     catch (error) { console.log(error) }
 }
-
+//puts fetch requests in a promise chain and renders data in html
 const renderWeather = () => {
     geocode()
         .then(function () {
             return Promise.all([currentWeather(), fiveDayForecast()])
-        })
-        .then(weather => {
-            console.log(weather)
-            return weather
         })
         .then(
             function (weather) {
@@ -88,31 +68,31 @@ const renderWeather = () => {
 
                 const fiveDayWeatherTemplate = `
                     <h2>5-Day Forcast</h2>
-                    <div class='card col-2'>
+                    <div class='card col-12 col-2-md'>
                         <p>${moment().add(1, 'd').format('MM/DD/YYYY')}</p>
                         <p><img src='http://openweathermap.org/img/wn/${weather[1].list[7].weather[0].icon}@2x.png'></p>
                         <p>${weather[1].list[7].main.temp} °F</p>
                         <p>${weather[1].list[7].main.humidity} % Humidity</p>
                     </div>
-                    <div class='card col-2'>
+                    <div class='card col-12 col-2-md'>
                         <p>${moment().add(2, 'd').format('MM/DD/YYYY')}</p>
                         <p><img src='http://openweathermap.org/img/wn/${weather[1].list[15].weather[0].icon}@2x.png'></p>
                         <p>${weather[1].list[15].main.temp} °F</p>
                         <p>${weather[1].list[15].main.humidity} % Humidity</p>
                     </div>
-                    <div class='card col-2'>
+                    <div class='card col-12 col-2-md'>
                         <p>${moment().add(3, 'd').format('MM/DD/YYYY')}</p>
                         <p><img src='http://openweathermap.org/img/wn/${weather[1].list[23].weather[0].icon}@2x.png'></p>
                         <p>${weather[1].list[23].main.temp} °F</p>
                         <p>${weather[1].list[23].main.humidity} % Humidity</p>
                     </div>
-                    <div class='card col-2'>
+                    <div class='card col-12 col-2-md'>
                         <p>${moment().add(4, 'd').format('MM/DD/YYYY')}</p>
                         <p><img src='http://openweathermap.org/img/wn/${weather[1].list[31].weather[0].icon}@2x.png'></p>
                         <p>${weather[1].list[31].main.temp} °F</p>
                         <p>${weather[1].list[31].main.humidity} % Humidity</p>
                     </div>
-                    <div class='card col-2'>
+                    <div class='card col-12 col-2-md'>
                         <p>${moment().add(5, 'd').format('MM/DD/YYYY')}</p>
                         <p><img src='http://openweathermap.org/img/wn/${weather[1].list[39].weather[0].icon}@2x.png'></p>
                         <p>${weather[1].list[39].main.temp} °F</p>
@@ -121,7 +101,7 @@ const renderWeather = () => {
 
                 currentWeatherBox.innerHTML = currentWeatherTemplate;
                 fiveDayWeatherBox.innerHTML = fiveDayWeatherTemplate;
-
+                //determines the background color of the uv index value
                 const uvIndex = document.getElementById('uvi');
                 if (weather[0].current.uvi > 6) {
                     uvIndex.classList.add('severe')
@@ -134,7 +114,7 @@ const renderWeather = () => {
             })
 }
 
-
+//triggers the render function and prepends the search history when the user hits enter
 cityInput.addEventListener('keyup', function (e) {
     e.preventDefault();
     if (e.keycode === 13 || e.key === 'Enter') {
@@ -144,12 +124,20 @@ cityInput.addEventListener('keyup', function (e) {
         let searchItem = document.createElement('li');
         searchItem.classList.add('list-group-item')
         searchItem.textContent = cityInput.value;
-        searchHistory.appendChild(searchItem)
+        searchHistory.prepend(searchItem)
         cityInput.value = ''
+
+        localStorage.setItem('searchHistory', searchHistory.innerHTML)
     }
 })
-
+//renders relevant data when the user clicks on an item in the search history
 searchHistory.addEventListener('click', function (e) {
     cityName = e.target.textContent;
     renderWeather();
 })
+
+let storage = localStorage.getItem('searchHistory')
+
+if (storage) {
+    searchHistory.innerHTML = storage;
+}

@@ -16,6 +16,19 @@ p {
   border-bottom: 10px solid rgb(128, 227, 252);
 }
 
+ul {
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+ul:hover {
+  cursor: pointer;
+}
+
+li:hover {
+  background-color: rgb(236, 232, 232);
+}
+
 article {
   min-height: 150px;
 }
@@ -47,3 +60,4 @@ p:first-child {
   background-color: lightgreen;
   padding: 10px;
 }
+
