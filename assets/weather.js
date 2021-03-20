@@ -68,31 +68,31 @@ const renderWeather = () => {
 
                 const fiveDayWeatherTemplate = `
                     <h2>5-Day Forcast</h2>
-                    <div class='card col-12 col-2-md'>
+                    <div class='card col-4 col-lg-2'>
                         <p>${moment().add(1, 'd').format('MM/DD/YYYY')}</p>
                         <p><img src='http://openweathermap.org/img/wn/${weather[1].list[7].weather[0].icon}@2x.png'></p>
                         <p>${weather[1].list[7].main.temp} °F</p>
                         <p>${weather[1].list[7].main.humidity} % Humidity</p>
                     </div>
-                    <div class='card col-12 col-2-md'>
+                    <div class='card col-4 col-lg-2'>
                         <p>${moment().add(2, 'd').format('MM/DD/YYYY')}</p>
                         <p><img src='http://openweathermap.org/img/wn/${weather[1].list[15].weather[0].icon}@2x.png'></p>
                         <p>${weather[1].list[15].main.temp} °F</p>
                         <p>${weather[1].list[15].main.humidity} % Humidity</p>
                     </div>
-                    <div class='card col-12 col-2-md'>
+                    <div class='card col-4 col-lg-2'>
                         <p>${moment().add(3, 'd').format('MM/DD/YYYY')}</p>
                         <p><img src='http://openweathermap.org/img/wn/${weather[1].list[23].weather[0].icon}@2x.png'></p>
                         <p>${weather[1].list[23].main.temp} °F</p>
                         <p>${weather[1].list[23].main.humidity} % Humidity</p>
                     </div>
-                    <div class='card col-12 col-2-md'>
+                    <div class='card col-4 col-lg-2'>
                         <p>${moment().add(4, 'd').format('MM/DD/YYYY')}</p>
                         <p><img src='http://openweathermap.org/img/wn/${weather[1].list[31].weather[0].icon}@2x.png'></p>
                         <p>${weather[1].list[31].main.temp} °F</p>
                         <p>${weather[1].list[31].main.humidity} % Humidity</p>
                     </div>
-                    <div class='card col-12 col-2-md'>
+                    <div class='card col-4 col-lg-2'>
                         <p>${moment().add(5, 'd').format('MM/DD/YYYY')}</p>
                         <p><img src='http://openweathermap.org/img/wn/${weather[1].list[39].weather[0].icon}@2x.png'></p>
                         <p>${weather[1].list[39].main.temp} °F</p>
