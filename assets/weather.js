@@ -1,5 +1,3 @@
-
-
 const cityInput = document.getElementById('city');
 const currentWeatherBox = document.getElementById('currentWeatherBox');
 const fiveDayWeatherBox = document.getElementById('fiveDayWeatherBox');
@@ -60,7 +58,7 @@ const renderWeather = () => {
         })
         .then(
             function (weather) {
-                const currentWeatherTemplate = `  <h2>${weather[1].city.name} ${today} <img src='http://openweathermap.org/img/wn/${weather[0].current.weather[0].icon}@2x.png'></h2>
+                const currentWeatherTemplate = `  <h2>${weather[1].city.name} ${today} <img id='icon' alt='${weather[0].current.weather[0].description}' src='https://openweathermap.org/img/wn/${weather[0].current.weather[0].icon}@2x.png'></h2>
                             <p>Temperature: ${weather[0].current.temp}°F </p>
                             <p>Humidity: ${weather[0].current.humidity}% </p>
                             <p>Wind Speed: ${weather[0].current.wind_speed}MPH </p>
@@ -70,31 +68,36 @@ const renderWeather = () => {
                     <h2>5-Day Forcast</h2>
                     <div class='card col-4 col-lg-2'>
                         <p>${moment().add(1, 'd').format('MM/DD/YYYY')}</p>
-                        <p><img src='http://openweathermap.org/img/wn/${weather[1].list[7].weather[0].icon}@2x.png'></p>
+                        <p><img src='https://openweathermap.org/img/wn/${weather[1].list[7].weather[0].icon}@2x.png' 
+                            alt='${weather[1].list[7].weather[0].description}'></p>
                         <p>${weather[1].list[7].main.temp} °F</p>
                         <p>${weather[1].list[7].main.humidity} % Humidity</p>
                     </div>
                     <div class='card col-4 col-lg-2'>
                         <p>${moment().add(2, 'd').format('MM/DD/YYYY')}</p>
-                        <p><img src='http://openweathermap.org/img/wn/${weather[1].list[15].weather[0].icon}@2x.png'></p>
+                        <p><img src='https://openweathermap.org/img/wn/${weather[1].list[15].weather[0].icon}@2x.png' 
+                            alt='${weather[1].list[15].weather[0].description}'></p>
                         <p>${weather[1].list[15].main.temp} °F</p>
                         <p>${weather[1].list[15].main.humidity} % Humidity</p>
                     </div>
                     <div class='card col-4 col-lg-2'>
                         <p>${moment().add(3, 'd').format('MM/DD/YYYY')}</p>
-                        <p><img src='http://openweathermap.org/img/wn/${weather[1].list[23].weather[0].icon}@2x.png'></p>
+                        <p><img src='https://openweathermap.org/img/wn/${weather[1].list[23].weather[0].icon}@2x.png' 
+                            alt='${weather[1].list[23].weather[0].description}'></p>
                         <p>${weather[1].list[23].main.temp} °F</p>
                         <p>${weather[1].list[23].main.humidity} % Humidity</p>
                     </div>
                     <div class='card col-4 col-lg-2'>
                         <p>${moment().add(4, 'd').format('MM/DD/YYYY')}</p>
-                        <p><img src='http://openweathermap.org/img/wn/${weather[1].list[31].weather[0].icon}@2x.png'></p>
+                        <p><img src='https://openweathermap.org/img/wn/${weather[1].list[31].weather[0].icon}@2x.png' 
+                            alt='${weather[1].list[31].weather[0].description}'></p>
                         <p>${weather[1].list[31].main.temp} °F</p>
                         <p>${weather[1].list[31].main.humidity} % Humidity</p>
                     </div>
                     <div class='card col-4 col-lg-2'>
                         <p>${moment().add(5, 'd').format('MM/DD/YYYY')}</p>
-                        <p><img src='http://openweathermap.org/img/wn/${weather[1].list[39].weather[0].icon}@2x.png'></p>
+                        <p><img src='https://openweathermap.org/img/wn/${weather[1].list[39].weather[0].icon}@2x.png' 
+                            alt='${weather[1].list[39].weather[0].description}'></p>
                         <p>${weather[1].list[39].main.temp} °F</p>
                         <p>${weather[1].list[39].main.humidity} % Humidity</p>
                     </div>`
@@ -135,7 +138,7 @@ searchHistory.addEventListener('click', function (e) {
     cityName = e.target.textContent;
     renderWeather();
 })
-
+//loads past searches from local storage on page load
 let storage = localStorage.getItem('searchHistory')
 
 if (storage) {
