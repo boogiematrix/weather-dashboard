@@ -5,4 +5,4 @@ This is a basic weather app. Using data from the [OpenWeather Api](https://openw
 
 [weather-site](https://boogiematrix.github.io/weather-dashboard/)
 
-![Screen Shot](https://github.com/boogiematrix/calendar-app/blob/main/assets/weather-screenshot.png)
+![Screen Shot](https://github.com/boogiematrix/weather-dashboard/blob/main/assets/weather-screenshot.png)
