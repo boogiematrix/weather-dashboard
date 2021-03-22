@@ -65,4 +65,8 @@ p:first-child {
   ul {
     max-height: 70px;
   }
+
+  p:first-child {
+  font-size: 12px;
+} 
 }
