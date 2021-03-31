@@ -21,7 +21,12 @@
         <section class='row'>
             <article class='col-12 col-md-3'>
                 <label for="city" class="form-label">Search for a City:</label>
-                <input class="form-control" list="cityOptions" id="city" placeholder="Type to search..." autofocus>
+                <div class='input-group'>
+                    <input type='text' class="form-control" list="cityOptions" id="city" placeholder="Type to search..." autofocus>
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-primary" id='cityButton'>Search</button>
+                    </div>
+                </div>
                 <ul class='list-group' id='searchHistory'>
                 </ul>
             </article>

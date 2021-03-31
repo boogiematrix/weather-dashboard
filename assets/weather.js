@@ -1,7 +1,23 @@
+/*TO-DO:
+include a search button (magnifying glass icon?) so 
+users can click or hit enter to search
+
+run a clean-up function that checks to make sure the query term isn't
+ already included in local storage before adding it to the button list. 
+ This will take care of duplicates
+
+instead of displaying the query term, use the city name returned from the 
+API as what is saved in local storage & displayed on the page. For example,
+ if a user searches 'st petersburg,' use the returned name (St. Petersburg) 
+ as what is displayed in the button. This will standardize spelling & punctuation
+*/
+
+
 const cityInput = document.getElementById('city');
 const currentWeatherBox = document.getElementById('currentWeatherBox');
 const fiveDayWeatherBox = document.getElementById('fiveDayWeatherBox');
 const searchHistory = document.getElementById('searchHistory');
+const cityButton = document.getElementById('cityButton')
 
 const apiKey = 'f7539453617679dd406d1369cc371b9e';
 
@@ -121,6 +137,13 @@ const renderWeather = () => {
 cityInput.addEventListener('keyup', function (e) {
     e.preventDefault();
     if (e.keycode === 13 || e.key === 'Enter') {
+        initiateSearch
+    }
+});
+
+cityButton.addEventListener('click', initiateSearch)
+    
+    function initiateSearch () {
         cityName = cityInput.value
         renderWeather();
 
@@ -132,7 +155,7 @@ cityInput.addEventListener('keyup', function (e) {
 
         localStorage.setItem('searchHistory', searchHistory.innerHTML)
     }
-})
+
 //renders relevant data when the user clicks on an item in the search history
 searchHistory.addEventListener('click', function (e) {
     cityName = e.target.textContent;
